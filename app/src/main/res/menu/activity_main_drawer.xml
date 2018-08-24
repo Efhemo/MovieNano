@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_popular_movies"
+            android:icon="@drawable/ic_group_black_24dp"
+            android:title="@string/frag_title_popular" />
+        <item
+            android:id="@+id/nav_top_rated"
+            android:icon="@drawable/ic_rate_review_black_24dp"
+            android:title="@string/frag_title_top_rated" />
+
+    </group>
+
+    <item android:title="@string/nav_settings">
+        <menu>
+            <item
+                android:id="@+id/nav_sort_order"
+                android:icon="@drawable/ic_sort_black_24dp"
+                android:title="@string/frag_title_sort_by" />
+
+        </menu>
+    </item>
+
+</menu>
