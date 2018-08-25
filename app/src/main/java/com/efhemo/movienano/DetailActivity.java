@@ -55,6 +55,7 @@ public class DetailActivity extends AppCompatActivity {
             textViewDate.setText(dateOfRelease);
             textViewUserRating.setText(rating);
             setSupportActionBar(toolbar);
+            setTitle(movieName);
         }
 
 
