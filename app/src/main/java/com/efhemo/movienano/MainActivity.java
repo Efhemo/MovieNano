@@ -80,10 +80,10 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_popular_movies) {
-            // Handle the fragment in stage 2
-        } else if (id == R.id.nav_top_rated) {
-            //Handle the fragment in stage 2
+        if (id == R.id.nav_movies) {
+            switchFragment(new PopularFragment());
+        } else if (id == R.id.nav_favourite) {
+            switchFragment(new FavouriteFragment());
         }else if(id == R.id.nav_sort_order){
             Intent intent = new Intent(this, SettingsActivity.class);
             startActivity(intent);

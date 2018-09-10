@@ -1,5 +1,9 @@
 package com.efhemo.movienano.model;
 
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
+import android.arch.persistence.room.Index;
+import android.arch.persistence.room.PrimaryKey;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -8,8 +12,12 @@ import com.google.gson.annotations.SerializedName;
 import java.util.ArrayList;
 import java.util.List;
 
-
+@Entity(tableName = "movietable", indices ={@Index(value = {"posterPath", "backdropPath"}, unique = true)} )
 public class Movie implements Parcelable {
+
+    @PrimaryKey(autoGenerate = true)
+    private int identification;
+
     @SerializedName("poster_path")
     private String posterPath;
     @SerializedName("adult")
@@ -39,6 +47,7 @@ public class Movie implements Parcelable {
     @SerializedName("vote_average")
     private Double voteAverage;
 
+    @Ignore
     public Movie(String posterPath, boolean adult, String overview, String releaseDate, List<Integer> genreIds, Integer id,
                  String originalTitle, String originalLanguage, String title, String backdropPath, Double popularity,
                  Integer voteCount, Boolean video, Double voteAverage) {
@@ -58,6 +67,27 @@ public class Movie implements Parcelable {
         this.voteAverage = voteAverage;
     }
 
+    public Movie(int identification, String posterPath, boolean adult,
+                 String overview, String releaseDate, List<Integer> genreIds, Integer id, String originalTitle, String originalLanguage, String title, String backdropPath, Double popularity, Integer voteCount,
+                 Boolean video, Double voteAverage) {
+        this.identification = identification;
+        this.posterPath = posterPath;
+        this.adult = adult;
+        this.overview = overview;
+        this.releaseDate = releaseDate;
+        this.genreIds = genreIds;
+        this.id = id;
+        this.originalTitle = originalTitle;
+        this.originalLanguage = originalLanguage;
+        this.title = title;
+        this.backdropPath = backdropPath;
+        this.popularity = popularity;
+        this.voteCount = voteCount;
+        this.video = video;
+        this.voteAverage = voteAverage;
+    }
+
+    @Ignore
     public Movie(){
 
     }
@@ -128,6 +158,10 @@ public class Movie implements Parcelable {
         this.originalLanguage = originalLanguage;
     }
 
+    public void setIdentification(int identification) {
+        this.identification = identification;
+    }
+
     public String getTitle() {
         return title;
     }
@@ -174,6 +208,10 @@ public class Movie implements Parcelable {
 
     public void setVoteAverage(Double voteAverage) {
         this.voteAverage = voteAverage;
+    }
+
+    public int getIdentification() {
+        return identification;
     }
 
     @Override

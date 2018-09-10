@@ -1,39 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-    <android.support.v4.widget.NestedScrollView
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:descendantFocusability="beforeDescendants"
+    android:fitsSystemWindows="false"
+    android:focusableInTouchMode="true"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fitsSystemWindows="false"
-        android:descendantFocusability="beforeDescendants"
         android:focusableInTouchMode="true"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        android:orientation="vertical">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:focusableInTouchMode="true">
+        <include layout="@layout/key_details_layout" />
 
-            <TextView
-                style="@style/textViewStyle"
-                android:id="@+id/overview_tv"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+        <include layout="@layout/overview" />
 
-            <TextView
-                style="@style/textViewStyle"
-                android:id="@+id/date_tv"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+        <include layout="@layout/review_layout" />
 
-            <TextView
-                style="@style/textViewStyle"
-                android:id="@+id/user_rating"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+        <include layout="@layout/video_layout" />
 
-        </LinearLayout>
 
-    </android.support.v4.widget.NestedScrollView>
+
+    </LinearLayout>
+
+
+</android.support.v4.widget.NestedScrollView>

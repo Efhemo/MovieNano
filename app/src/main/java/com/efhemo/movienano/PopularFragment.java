@@ -34,7 +34,7 @@ public class PopularFragment extends Fragment implements
     private RecyclerView recyclerView;
     private TextView textViewNoMovies;
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
-    private static final String API_KEY = BuildConfig.TheMovieDBAPIKEY;
+    //private static final String API_KEY = BuildConfig.TheMovieDBAPIKEY;
 
 
     @Nullable
@@ -78,9 +78,8 @@ public class PopularFragment extends Fragment implements
 
             Service service = ApiClient.getApiClient().create(Service.class);
 
-
-            isApiKeyAvailable();
-            Call<MoviesResponse> moviesResponseCall = service.getPopularMovies(API_KEY);
+            //isApiKeyAvailable();
+            Call<MoviesResponse> moviesResponseCall = service.getPopularMovies("95b230b9dc5ca4b835cdb00a1aef6270");
             moviesResponseCall.enqueue(new Callback<MoviesResponse>() {
                 @Override
                 public void onResponse(Call<MoviesResponse> call, Response<MoviesResponse> response) {
@@ -104,21 +103,14 @@ public class PopularFragment extends Fragment implements
 
     }
 
-    private void isApiKeyAvailable() {
-
-        if(API_KEY.isEmpty()){
-            Toast.makeText(this.getContext(), "insert your api key", Toast.LENGTH_SHORT).show();
-            getActivity().finish();
-        }
-    }
 
     private void loadJsonResultTopRated(){
 
         try {
 
             Service service = ApiClient.getApiClient().create(Service.class);
-            isApiKeyAvailable();
-            Call<MoviesResponse> moviesResponseCall = service.getTopRatedMovies(API_KEY);
+            //isApiKeyAvailable();
+            Call<MoviesResponse> moviesResponseCall = service.getTopRatedMovies("95b230b9dc5ca4b835cdb00a1aef6270");
             moviesResponseCall.enqueue(new Callback<MoviesResponse>() {
                 @Override
                 public void onResponse(Call<MoviesResponse> call, Response<MoviesResponse> response) {

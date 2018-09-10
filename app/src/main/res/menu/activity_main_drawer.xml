@@ -5,13 +5,13 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_popular_movies"
+            android:id="@+id/nav_movies"
             android:icon="@drawable/ic_group_black_24dp"
-            android:title="@string/frag_title_popular" />
+            android:title="@string/frag_title_moviess" />
         <item
-            android:id="@+id/nav_top_rated"
+            android:id="@+id/nav_favourite"
             android:icon="@drawable/ic_rate_review_black_24dp"
-            android:title="@string/frag_title_top_rated" />
+            android:title="@string/frag_title_favourite" />
 
     </group>
 
