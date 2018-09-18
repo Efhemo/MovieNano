@@ -34,14 +34,13 @@ public class PopularFragment extends Fragment implements
     private RecyclerView recyclerView;
     private TextView textViewNoMovies;
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
-    //private static final String API_KEY = BuildConfig.TheMovieDBAPIKEY;
+    public static final String API_KEY = BuildConfig.TheMovieDBAPIKEY;
 
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view  = getLayoutInflater().inflate(R.layout.fragment_recyclerview, container, false);
-
 
         movieRecyclerAdapter = new MovieRecyclerAdapter(getContext(), this );
         recyclerView = view.findViewById(R.id.rc_view);
@@ -79,7 +78,7 @@ public class PopularFragment extends Fragment implements
             Service service = ApiClient.getApiClient().create(Service.class);
 
             //isApiKeyAvailable();
-            Call<MoviesResponse> moviesResponseCall = service.getPopularMovies("95b230b9dc5ca4b835cdb00a1aef6270");
+            Call<MoviesResponse> moviesResponseCall = service.getPopularMovies(API_KEY);
             moviesResponseCall.enqueue(new Callback<MoviesResponse>() {
                 @Override
                 public void onResponse(Call<MoviesResponse> call, Response<MoviesResponse> response) {
@@ -110,7 +109,7 @@ public class PopularFragment extends Fragment implements
 
             Service service = ApiClient.getApiClient().create(Service.class);
             //isApiKeyAvailable();
-            Call<MoviesResponse> moviesResponseCall = service.getTopRatedMovies("95b230b9dc5ca4b835cdb00a1aef6270");
+            Call<MoviesResponse> moviesResponseCall = service.getTopRatedMovies(API_KEY);
             moviesResponseCall.enqueue(new Callback<MoviesResponse>() {
                 @Override
                 public void onResponse(Call<MoviesResponse> call, Response<MoviesResponse> response) {
@@ -151,4 +150,5 @@ public class PopularFragment extends Fragment implements
         intent.putExtra(DetailActivity.EXTRA_MOVIE, movie);
         startActivity(intent);
     }
+
 }

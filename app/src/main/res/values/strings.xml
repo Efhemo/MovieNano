@@ -20,6 +20,8 @@
     <string name="is_available_favourite">Select Favourite Movie First</string>
     <string name="preference_file_key">com.efhemo.movienano</string>
 
+    <string name="favourite">Favourite</string>
+
     <array name="pref_entries_name">
         <item>Popular</item>
         <item>Top Rated</item>

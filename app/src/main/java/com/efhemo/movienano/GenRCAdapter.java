@@ -1,6 +1,8 @@
 package com.efhemo.movienano;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -99,7 +101,7 @@ public class GenRCAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         notifyDataSetChanged();
     }
 
-    public class TrailerViewHolder extends RecyclerView.ViewHolder{
+    public class TrailerViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         ImageView imageViewTrailer;
         TextView textViewTrailerName;
@@ -110,6 +112,20 @@ public class GenRCAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
             imageViewTrailer = itemView.findViewById(R.id.thumbnail_imageView);
             textViewTrailerName = itemView.findViewById(R.id.video_name);
+            imageViewTrailer.setOnClickListener(this);
+        }
+
+        /**
+         * Called when a view has been clicked.
+         *
+         * @param v The view that was clicked.
+         */
+        @Override
+        public void onClick(View v) {
+            String videoKey = trailers.get(getAdapterPosition()).getKey();
+            context.startActivity(new Intent(Intent.ACTION_VIEW,
+                    Uri.parse("http://www.youtube.com/watch?v="+videoKey+"")));
+            Log.d("Video", "Video Playing...");
         }
     }
 

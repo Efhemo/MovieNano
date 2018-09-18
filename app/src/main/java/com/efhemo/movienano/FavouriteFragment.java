@@ -39,6 +39,8 @@ public class FavouriteFragment extends Fragment implements MovieRecyclerAdapter.
         recyclerView.setAdapter(movieRecyclerAdapter);
 
         retrieveTask();
+
+        getActivity().setTitle(getResources().getString(R.string.favourite));
         return rootView;
     }
 

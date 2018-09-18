@@ -3,16 +3,17 @@ package com.efhemo.movienano;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.DialogFragment;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -25,6 +26,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.efhemo.movienano.api.ApiClient;
 import com.efhemo.movienano.api.Service;
 import com.efhemo.movienano.database.AppDatabase;
+import com.efhemo.movienano.database.AppExecutors;
 import com.efhemo.movienano.model.Movie;
 import com.efhemo.movienano.model.Review;
 import com.efhemo.movienano.model.ReviewResponse;
@@ -62,11 +64,10 @@ public class DetailActivity extends AppCompatActivity {
     private TextView textViewSeeMore;
     public FloatingActionButton floatingActionButton;
 
-    AppDatabase appDatabase;
+    private AppDatabase appDatabase;
     private SharedPreferences sharedPref;
     private boolean isFavourite;
     private SharedPreferences.Editor editor;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +80,10 @@ public class DetailActivity extends AppCompatActivity {
         }
 
         initializeView();
+
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        ActionBar actionBar = getSupportActionBar();
 
         if (intent != null && intent.hasExtra(DetailActivity.EXTRA_MOVIE)) {
             movie = getIntent().getParcelableExtra(DetailActivity.EXTRA_MOVIE);
@@ -105,7 +110,7 @@ public class DetailActivity extends AppCompatActivity {
             textViewTitle.setText(movie.getOriginalTitle());
             textViewDate.setText(dateOfRelease);
             setSupportActionBar(toolbar);
-            setTitle(movieName);
+            toolbar.setTitle(movieName);
 
 
         }
@@ -128,12 +133,17 @@ public class DetailActivity extends AppCompatActivity {
         favouriteFeature(isFavourite);
 
 
-        insertFavourite();
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                clickedFavouriteFeature();
+            }
+        });
 
         loadVideo();
 
         loadReviews();
-
 
     }
 
@@ -159,27 +169,29 @@ public class DetailActivity extends AppCompatActivity {
         floatingActionButton = findViewById(R.id.fab);
     }
 
-    void insertFavourite() {
+    void deleteFavouriteMovie(){
 
-        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+        AppExecutors.getInstance().getDiskIO().execute(new Runnable() {
             @Override
-            public void onClick(View v) {
-
-                clickedFavouriteFeature();
+            public void run() {
+                appDatabase.taskDao().oneMovie(movie_id);
+                Log.v(LOG_TAG, movie_id+" id deleted" );
             }
         });
-
     }
 
-    void clickedFavouriteFeature() {
 
+    void clickedFavouriteFeature() {
 
         if (isFavourite) {
             floatingActionButton.setBackgroundTintList(ColorStateList.valueOf(getResources().
                     getColor(R.color.whiteCo)));
 
+            deleteFavouriteMovie();
+
             isFavourite = false;
             editor.putBoolean(String.valueOf(movie_id), isFavourite).commit();
+            Toast.makeText(this, "Delete as Favourite", Toast.LENGTH_SHORT).show();
 
         } else if (!isFavourite) {
             floatingActionButton.setBackgroundTintList(ColorStateList.valueOf(getResources().
@@ -187,33 +199,29 @@ public class DetailActivity extends AppCompatActivity {
             insertMovie();
             isFavourite = true;
             editor.putBoolean(String.valueOf(movie_id), isFavourite).commit();
-            Toast.makeText(this, "Save as favourite", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Save as Favourite", Toast.LENGTH_SHORT).show();
         }
     }
 
 
     void insertMovie() {
 
-        new AsyncTask<Void, Void, Void>() {
+        AppExecutors.getInstance().getDiskIO().execute(new Runnable() {
             @Override
-            protected Void doInBackground(Void... voids) {
+            public void run() {
                 appDatabase.taskDao().insertMovie(movie);
-                return null;
+                int identification   = movie.getIdentification();
+                Log.v(LOG_TAG, "id of "+identification );
+                sharedPref.edit().putInt("id",identification);
             }
-
-            @Override
-            protected void onPostExecute(Void aVoid) {
-                super.onPostExecute(aVoid);
-                Toast.makeText(DetailActivity.this, "onPost started", Toast.LENGTH_SHORT).show();
-            }
-        }.execute();
+        });
     }
 
     void loadVideo() {
 
         Service service = ApiClient.getApiClient().create(Service.class);
         Call<TrailerResponse> trailerCall =
-                service.getMovieTrailer(movie_id, "95b230b9dc5ca4b835cdb00a1aef6270");
+                service.getMovieTrailer(movie_id, PopularFragment.API_KEY);
         trailerCall.enqueue(new Callback<TrailerResponse>() {
             @Override
             public void onResponse(Call<TrailerResponse> call, Response<TrailerResponse> response) {
@@ -241,7 +249,7 @@ public class DetailActivity extends AppCompatActivity {
     void loadReviews() {
         Service service = ApiClient.getApiClient().create(Service.class);
         Call<ReviewResponse> reviewResponseCall = service.
-                getReviewResponse(movie_id, "95b230b9dc5ca4b835cdb00a1aef6270");
+                getReviewResponse(movie_id, PopularFragment.API_KEY);
 
         reviewResponseCall.enqueue(new Callback<ReviewResponse>() {
             @Override
@@ -301,6 +309,18 @@ public class DetailActivity extends AppCompatActivity {
         } else if (!isFavourite) {
             floatingActionButton.setBackgroundTintList(ColorStateList.valueOf(getResources().
                     getColor(R.color.whiteCo)));
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()){
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
     }
 }

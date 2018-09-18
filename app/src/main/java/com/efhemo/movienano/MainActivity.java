@@ -16,14 +16,13 @@ import android.view.MenuItem;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    Fragment fragment;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        switchFragment(new PopularFragment());
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -33,6 +32,23 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        if(savedInstanceState !=null) {
+            //restore the fragment state
+            fragment = getSupportFragmentManager().getFragment(savedInstanceState,"myFragment" );
+            switchFragment(fragment);
+        }
+        else {
+            fragment = new PopularFragment();
+            switchFragment(fragment);
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        //save the fragment state
+        getSupportFragmentManager().putFragment(outState, "myFragment", fragment);
     }
 
     private void switchFragment(Fragment fragment){
@@ -81,9 +97,11 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_movies) {
-            switchFragment(new PopularFragment());
+            fragment = new PopularFragment();
+            switchFragment(fragment);
         } else if (id == R.id.nav_favourite) {
-            switchFragment(new FavouriteFragment());
+            fragment = new FavouriteFragment();
+            switchFragment(fragment);
         }else if(id == R.id.nav_sort_order){
             Intent intent = new Intent(this, SettingsActivity.class);
             startActivity(intent);

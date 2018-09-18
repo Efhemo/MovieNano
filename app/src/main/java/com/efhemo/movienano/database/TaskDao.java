@@ -18,4 +18,8 @@ public interface TaskDao {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     void insertMovie(Movie movie);
+
+    @Query("DELETE FROM movietable WHERE id = :usedId")
+    abstract void oneMovie(Integer usedId);
+
 }
