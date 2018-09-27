@@ -9,14 +9,13 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.efhemo.movienano.model.Movie;
 
 import java.util.List;
 
 public class MovieRecyclerAdapter extends RecyclerView.Adapter<MovieRecyclerAdapter.RecyclerViewHolder> {
 
-    List<Movie> movieList;
+    private List<Movie> movieList;
 
     private OnListClickListener onListClickListener;
     public interface OnListClickListener{
@@ -42,7 +41,7 @@ public class MovieRecyclerAdapter extends RecyclerView.Adapter<MovieRecyclerAdap
         String imageUrl = movieList.get(holder.getAdapterPosition()).getPosterPath();
         Glide.with(context).load("https://image.tmdb.org/t/p/w200/"+imageUrl)
                 .fitCenter()
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                /*.diskCacheStrategy(DiskCacheStrategy.ALL)*/
                 .into(holder.imageView);
     }
 

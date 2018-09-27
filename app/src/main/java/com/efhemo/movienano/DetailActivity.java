@@ -46,6 +46,7 @@ public class DetailActivity extends AppCompatActivity {
     private static final String LOG_TAG = DetailActivity.class.getSimpleName();
     public final static String EXTRA_MOVIE = "extraMovie";
 
+
     Movie movie;
     String backDropPath, movieName, overview, rating, dateOfRelease;
     int movie_id;
@@ -221,7 +222,7 @@ public class DetailActivity extends AppCompatActivity {
 
         Service service = ApiClient.getApiClient().create(Service.class);
         Call<TrailerResponse> trailerCall =
-                service.getMovieTrailer(movie_id, PopularFragment.API_KEY);
+                service.getMovieTrailer(movie_id, MainActivity.API_KEY);
         trailerCall.enqueue(new Callback<TrailerResponse>() {
             @Override
             public void onResponse(Call<TrailerResponse> call, Response<TrailerResponse> response) {
@@ -249,7 +250,7 @@ public class DetailActivity extends AppCompatActivity {
     void loadReviews() {
         Service service = ApiClient.getApiClient().create(Service.class);
         Call<ReviewResponse> reviewResponseCall = service.
-                getReviewResponse(movie_id, PopularFragment.API_KEY);
+                getReviewResponse(movie_id, MainActivity.API_KEY);
 
         reviewResponseCall.enqueue(new Callback<ReviewResponse>() {
             @Override

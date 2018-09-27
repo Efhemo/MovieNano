@@ -25,10 +25,12 @@
     <array name="pref_entries_name">
         <item>Popular</item>
         <item>Top Rated</item>
+        <item>Favourite</item>
     </array>
 
     <array name="pref_entries_value">
         <item>@string/popularity</item>
         <item>@string/top_rated</item>
+        <item>@string/favourite</item>
     </array>
 </resources>

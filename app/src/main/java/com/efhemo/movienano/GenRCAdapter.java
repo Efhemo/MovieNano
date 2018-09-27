@@ -53,7 +53,6 @@ public class GenRCAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
 
-
         if(trailers !=null){
             TrailerViewHolder trailerViewHolder = (TrailerViewHolder) holder;
             Trailer trailer = trailers.get(holder.getAdapterPosition());
@@ -114,6 +113,8 @@ public class GenRCAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             textViewTrailerName = itemView.findViewById(R.id.video_name);
             imageViewTrailer.setOnClickListener(this);
         }
+
+
 
         /**
          * Called when a view has been clicked.
