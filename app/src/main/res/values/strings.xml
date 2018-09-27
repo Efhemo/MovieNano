@@ -15,6 +15,7 @@
     <string name="sort_order_key">sort by</string>
     <string name="popularity">popular</string>
     <string name="top_rated">top_rated</string>
+    <string name="top_rated_title">Top Rated</string>
     <string name="not_available_movie">Movie not available</string>
     <string name="extra_movie">extraMovie</string>
     <string name="is_available_favourite">Select Favourite Movie First</string>

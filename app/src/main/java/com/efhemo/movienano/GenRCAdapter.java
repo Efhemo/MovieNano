@@ -13,7 +13,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.efhemo.movienano.model.Review;
 import com.efhemo.movienano.model.Trailer;
 
@@ -59,7 +58,7 @@ public class GenRCAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             String imageResult = trailer.getKey();
             Glide.with(context).load("https://img.youtube.com/vi/"+imageResult+"/0.jpg")
                     .fitCenter()
-                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    /*.diskCacheStrategy(DiskCacheStrategy.ALL)*/
                     .into(trailerViewHolder.imageViewTrailer);
             trailerViewHolder.textViewTrailerName.setText(trailer.getName());
 
